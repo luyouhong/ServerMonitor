@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ServrerMonitor
+namespace ServerMonitor
 {
     static class Program
     {
@@ -16,7 +16,15 @@ namespace ServrerMonitor
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new ServerMonitor());
+            Application.ApplicationExit += Application_ApplicationExit; 
+
+        }
+
+        private static void Application_ApplicationExit(object sender, EventArgs e)
+        {
+
+            throw new NotImplementedException();
         }
     }
 }
