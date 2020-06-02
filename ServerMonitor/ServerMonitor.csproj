@@ -64,16 +64,45 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ServerMonitor.cs">
+    <Compile Include="ClassAppcontrol.cs" />
+    <Compile Include="ClassServicecontrol.cs" />
+    <Compile Include="FormAppControl.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ServerMonitor.Designer.cs">
-      <DependentUpon>ServerMonitor.cs</DependentUpon>
+    <Compile Include="FormAppControl.Designer.cs">
+      <DependentUpon>FormAppControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormServiceControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormServiceControl.Designer.cs">
+      <DependentUpon>FormServiceControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ServerManger.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ServerManger.Designer.cs">
+      <DependentUpon>ServerManger.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ServerMonitorIp.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ServerMonitorIp.Designer.cs">
+      <DependentUpon>ServerMonitorIp.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="ServerMonitor.resx">
-      <DependentUpon>ServerMonitor.cs</DependentUpon>
+    <EmbeddedResource Include="FormAppControl.resx">
+      <DependentUpon>FormAppControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormServiceControl.resx">
+      <DependentUpon>FormServiceControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ServerManger.resx">
+      <DependentUpon>ServerManger.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ServerMonitorIp.resx">
+      <DependentUpon>ServerMonitorIp.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -110,6 +139,12 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ClassLibraryLog\ClassLibraryTool1.csproj">
+      <Project>{7953f717-b8b3-4fa9-9c4b-a74f56c65fe4}</Project>
+      <Name>ClassLibraryTool1</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

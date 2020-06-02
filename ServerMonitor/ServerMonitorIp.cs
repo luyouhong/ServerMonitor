@@ -13,10 +13,13 @@ using System.IO;
 using System.Configuration;
 using System.ServiceProcess;
 using System.Diagnostics;
+using ClassLibraryTool1;
+using ServrerMonitor;
+
 
 namespace ServerMonitor
 {
-    public partial class ServerMonitor : Form
+    public partial class ServerMonitorIp : Form
     {
         #region  全局数据
         int UpdateInterval = 1000;
@@ -49,10 +52,11 @@ namespace ServerMonitor
         string Target_Phone1 = "";
         string Target_Phone2 = "";
         string Rest_Url = "";
+
         #endregion
 
         #region 事件
-        public ServerMonitor()
+        public ServerMonitorIp()
         {
             try
             {
@@ -427,6 +431,7 @@ namespace ServerMonitor
             }
 
         }
+
         public bool IsStop( string serviceNamestr )//检测服务运行
         {
             bool isStop = false;
@@ -435,7 +440,12 @@ namespace ServerMonitor
                 WriteLog(control.Status.ToString());
                 if (control.Status == System.ServiceProcess.ServiceControllerStatus.Stopped)
                 {
+                    control.Start();
                     isStop = true;
+                }
+                else
+                {
+                    control.Stop();
                 }
             }
             return isStop;
@@ -1033,6 +1043,11 @@ namespace ServerMonitor
             writelog(" ", " ", strLog);
         }
 
+        private void writeLog(string strLog)//临时写日志
+        {
+            writelog(" ", " ", strLog);
+        }
+
         #endregion
 
         private void timerCall(object obj)//暂时不用杀进程
@@ -1065,6 +1080,69 @@ namespace ServerMonitor
             }
 
         }
+
+        /// <summary>
+        /// 检查服务
+        /// </summary>
+
+        private void checkApp(string appName, string apppath)//
+        {
+
+
+        }
+
+            /// <summary>
+            /// 检查服务
+            /// </summary>
+
+            private void checkService(string serviceName)//
+        {
+            try
+            {
+                IsStop(serviceName);
+                /*
+                if (IsStop(serviceName))
+                {
+                    var serviceControllers = ServiceController.GetServices();
+
+                    // iphlpsvc
+                     var server = serviceControllers.FirstOrDefault(service => service.ServiceName == serviceName);
+                    if (server != null && server.Status != ServiceControllerStatus.Running)
+                    {
+                        server.Start();
+                    }
+                   
+                    using (System.ServiceProcess.ServiceController control = new ServiceController(appname))
+                    {
+                        control.Start();
+                    }
+                    
+                    writedata(" ", " checkService ", serviceName + " start ");
+
+                }
+                else //if (!IsResponse("strUrl", "miaoshu", 0))
+                {
+                    writedata(" ", " checkService ", serviceName + " is running ");
+                                       Process[] processes = Process.GetProcessesByName("exeName");
+
+                    foreach (Process p in processes)
+                    {
+                        WriteLog("kill Start.");
+                        p.Kill();
+                        p.Close();
+                        WriteLog("kill end.");
+                    }
+                    
+                }*/
+
+            }
+            catch (Exception ex)
+            {
+                WriteLog(ex.ToString());
+            }
+
+        }
+
 
         private void button6_Click(object sender, EventArgs e)
         {
@@ -1099,6 +1177,16 @@ namespace ServerMonitor
         private void button8_Click(object sender, EventArgs e)
         {
             textBox4.Text= PostWebRequest(textBox2.Text, textBox3.Text);
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            checkService("iphlpsvc");
+        }
+
+        private void button_AppControl_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("现在没有功能");
         }
     }
 }

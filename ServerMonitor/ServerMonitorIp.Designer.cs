@@ -6,7 +6,7 @@
 
 namespace ServerMonitor
 {
-    partial class ServerMonitor
+    public partial class ServerMonitorIp
     {
         /// <summary>
         /// 必需的设计器变量。
@@ -59,6 +59,8 @@ namespace ServerMonitor
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.button8 = new System.Windows.Forms.Button();
             this.textBox4 = new System.Windows.Forms.TextBox();
+            this.button9 = new System.Windows.Forms.Button();
+            this.button_AppControl = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -254,11 +256,33 @@ namespace ServerMonitor
             this.textBox4.Size = new System.Drawing.Size(259, 46);
             this.textBox4.TabIndex = 20;
             // 
+            // button9
+            // 
+            this.button9.Location = new System.Drawing.Point(1095, 12);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(93, 23);
+            this.button9.TabIndex = 21;
+            this.button9.Text = "button9";
+            this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.button9_Click);
+            // 
+            // button_AppControl
+            // 
+            this.button_AppControl.Location = new System.Drawing.Point(497, 8);
+            this.button_AppControl.Name = "button_AppControl";
+            this.button_AppControl.Size = new System.Drawing.Size(94, 31);
+            this.button_AppControl.TabIndex = 22;
+            this.button_AppControl.Text = "app控制";
+            this.button_AppControl.UseVisualStyleBackColor = true;
+            this.button_AppControl.Click += new System.EventHandler(this.button_AppControl_Click);
+            // 
             // ServerMonitor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1226, 885);
+            this.Controls.Add(this.button_AppControl);
+            this.Controls.Add(this.button9);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.textBox4);
             this.Controls.Add(this.button8);
@@ -309,6 +333,8 @@ namespace ServerMonitor
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Button button8;
         private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.Button button9;
+        private System.Windows.Forms.Button button_AppControl;
     }
 }
 

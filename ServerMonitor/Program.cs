@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ServrerMonitor;
 
 namespace ServerMonitor
 {
@@ -14,9 +15,10 @@ namespace ServerMonitor
         [STAThread]
         static void Main()
         {
+            
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new ServerMonitor());
+            Application.Run(new ServerManger());
             Application.ApplicationExit += Application_ApplicationExit; 
 
         }
