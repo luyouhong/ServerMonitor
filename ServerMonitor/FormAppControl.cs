@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using ClassLibraryTool1;
 using ServerMonitor;
 
-namespace ServrerMonitor
+namespace ServerMonitor
 {
     public partial class FormAppControl : Form
     {
@@ -23,7 +23,7 @@ namespace ServrerMonitor
         public void GetdatafromModle()
         {
             bool mybool = false;
-            //mybool = myClassAppcontrol.App1check();
+            //mybool = myClassServicescontrol.Services1check();
             text_App1name.Text = myClassAppcontrol.App1Name;
             text_App1path.Text = myClassAppcontrol.App1Path;
             label_App1Status.Text = myClassAppcontrol.App1Status;
@@ -78,11 +78,6 @@ namespace ServrerMonitor
             }
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            text_Now.Text = DateTime.Now.ToString();
-            GetdatafromModle();
-        }
 
 
         private void button_App1DayrRestart_Click(object sender, EventArgs e)
@@ -111,5 +106,11 @@ namespace ServrerMonitor
             label_timer.Text = timer1.Enabled.ToString();
 
         }
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            text_Now.Text = DateTime.Now.ToString();
+            GetdatafromModle();
+        }
+
     }
 }

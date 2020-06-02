@@ -10,10 +10,11 @@ using System.Threading;
 using System.Windows;
 using System.Timers;
 
-namespace ServrerMonitor
+namespace ServerMonitor
 {
     class ClassAppcontrol
     {
+        #region 变量定义
         string app1Name = "";
         string app1Path = "";
         string app1Status = "";
@@ -69,7 +70,8 @@ namespace ServrerMonitor
         public int App1DayRestartCount { get => app1DayRestartCount; set => app1DayRestartCount = value; }
         public DateTime App1DayRestartDT { get => app1DayRestartDT; set => app1DayRestartDT = value; }
 
-
+        #endregion
+        #region 初始化数据
         /// <summary>
         ///  getInitData( )//初始化数据
         /// </summary>
@@ -87,7 +89,7 @@ namespace ServrerMonitor
 
                 app1Name = appSettings["AppName1"] ?? "";
                 app1Path = appSettings["AppPath1"] ?? "";
-                app1Count0 = int.Parse(appSettings["App1Count0"] ?? "-1");
+                app1Count0 = int.Parse(appSettings["Services1Count0"] ?? "-1");
                 app1DayRestartHour = int.Parse(appSettings["App1DayRestartHour"] ?? "4");
                 app1DayRestartMinute = int.Parse(appSettings["App1DayRestartMinute"] ?? "0");
                 SetTimerParam();
@@ -116,7 +118,8 @@ namespace ServrerMonitor
 
             aTimer.Enabled = true;
         }
-
+        #endregion
+        #region 事件
         /// <summary>
         /// private void aTimer_Elapsed(object source, System.Timers.ElapsedEventArgs e)//定时器回调函数
         /// </summary>
@@ -135,9 +138,10 @@ namespace ServrerMonitor
             App1check();
             //MessageBox.Show(DateTime.Now.ToString());
         }
-
+        #endregion
+        #region 函数
         /// <summary>
-        /// public bool App1check()//检查应用程序状态
+        /// public bool Services1check()//检查应用程序状态
         /// </summary>
         public bool App1check()
         {
@@ -147,6 +151,7 @@ namespace ServrerMonitor
             bool startapp = false;
             try
             {
+
                 if (Process.GetProcessesByName(app1Name).ToList().Count > 0)        //应用程序正在运行
                 {
                     //存在
@@ -188,7 +193,7 @@ namespace ServrerMonitor
                 double doubleapp1DayRestartMinute = (double)app1DayRestartMinute;
                 restartDT = restartDT.AddMinutes(doubleapp1DayRestartMinute);
                 app1DayRestartDT = restartDT;
-                //if ((nowHour > app1DayRestartHour) && (nowMinute > app1DayRestartMinute) && app1DayRestart)
+                //if ((nowHour > services1DayRestartHour) && (nowMinute > services1DayRestartMinute) && services1DayRestart)
                 if ((app1DayRestart))
                 {
                     if (DateTime.Now > restartDT) 
@@ -215,7 +220,7 @@ namespace ServrerMonitor
                 DateTime restartDT1;
                 restartDT1 = restartDT;
                 restartDT1 = restartDT1.AddMinutes(2.0);
-                //if ((nowHour > app1DayRestartHour) && (nowMinute > (app1DayRestartMinute + 2)) && app1DayRestart)
+                //if ((nowHour > services1DayRestartHour) && (nowMinute > (services1DayRestartMinute + 2)) && services1DayRestart)
                 if ((DateTime.Now > restartDT1) && app1DayRestart)
                 {
                     app1DayRestart1 = false;
@@ -225,7 +230,7 @@ namespace ServrerMonitor
             catch (Exception ex)
             {
                 Debug.Print(ex.Message.ToString());
-                ClassLog.Writelog(DateTime.Now.ToString(), " public bool StartApp1() " + app1Name + "  ",
+                ClassLog.Writelog(DateTime.Now.ToString(), " public bool App1check() " + app1Name + "  ",
                     ex.Message.ToString());
                 return false;
             }
@@ -239,51 +244,51 @@ namespace ServrerMonitor
         /// <returns>已经运行或正在开启状态为真</returns>
         public bool StartApp1()
         {
+            bool tembool = false;
             try
             {
-                Process mProcess = new Process();
-                mProcess.StartInfo.FileName = app1Name;
-                mProcess.StartInfo.WorkingDirectory = app1Path.Substring(0, app1Path.LastIndexOf("\\"));
-                mProcess.Start();
-                return true;
+                //Process mProcess = new Process();
+                //mProcess.StartInfo.FileName = app1Name;
+                string temstr = app1Path.Substring(0, app1Path.LastIndexOf("\\"));        //mProcess.StartInfo.WorkingDirectory = app1Path.Substring(0, app1Path.LastIndexOf("\\"));
+                tembool = ClassMonitor.StartApp(app1Name, app1Path);            //mProcess.Start();
+                ClassLog.WritedataTodo(DateTime.Now.ToString(), " public bool StartApp1() "+ temstr + " " + app1Name + "  ", " Start! ");
+               return tembool;
             }
             catch (Exception ex)
             {
                 Debug.Print(ex.Message.ToString());
-                ClassLog.Writelog(DateTime.Now.ToString(), " public bool StartApp1() "+app1Name +"  ", 
+                ClassLog.Writelog(DateTime.Now.ToString(), " public bool StartApp1() " + app1Name +"  ", 
                     ex.Message.ToString());
-                return false;
+                return tembool;
             }
         }
 
         /// <summary>
-        /// public bool KillApp1()//中止应用程序进程
+        /// public bool StopServices1()//中止应用程序进程
         /// </summary>
         /// <param name>无</param>
         /// <returns>已经运行或正在开启状态为真</returns>
         public bool KillApp1()
         {
+            bool tembool = false;
             try
             {
                 ClassLog.Writelog(DateTime.Now.ToString(), " public bool KillApp( " + app1Name + ")  ",
                     " start ");
-                ClassMonitor.KillApp(app1Name);
+                tembool = ClassMonitor.KillApp(app1Name);
                 ClassLog.Writelog(DateTime.Now.ToString(), " public bool KillApp( " + app1Name + ")  ",
                     " end ");
-                return true;
+                return tembool;
             }
             catch (Exception ex)
             {
                 Debug.Print(ex.Message.ToString());
                 ClassLog.Writelog(DateTime.Now.ToString(), " public bool KillApp( " + app1Name + ")  ",
                     ex.Message.ToString());
-                return false;
+                return tembool;
             }
         }
-
-
-
+        #endregion
     }
-
 }
 

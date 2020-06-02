@@ -1,4 +1,4 @@
-﻿namespace ServrerMonitor
+﻿namespace ServerMonitor
 {
     public partial class FormAppControl
     {

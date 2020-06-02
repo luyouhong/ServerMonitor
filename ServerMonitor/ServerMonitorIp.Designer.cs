@@ -60,7 +60,6 @@ namespace ServerMonitor
             this.button8 = new System.Windows.Forms.Button();
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.button9 = new System.Windows.Forms.Button();
-            this.button_AppControl = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -264,24 +263,14 @@ namespace ServerMonitor
             this.button9.TabIndex = 21;
             this.button9.Text = "button9";
             this.button9.UseVisualStyleBackColor = true;
+            this.button9.Visible = false;
             this.button9.Click += new System.EventHandler(this.button9_Click);
             // 
-            // button_AppControl
-            // 
-            this.button_AppControl.Location = new System.Drawing.Point(497, 8);
-            this.button_AppControl.Name = "button_AppControl";
-            this.button_AppControl.Size = new System.Drawing.Size(94, 31);
-            this.button_AppControl.TabIndex = 22;
-            this.button_AppControl.Text = "app控制";
-            this.button_AppControl.UseVisualStyleBackColor = true;
-            this.button_AppControl.Click += new System.EventHandler(this.button_AppControl_Click);
-            // 
-            // ServerMonitor
+            // ServerMonitorIp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1226, 885);
-            this.Controls.Add(this.button_AppControl);
             this.Controls.Add(this.button9);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.textBox4);
@@ -303,7 +292,7 @@ namespace ServerMonitor
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button1);
-            this.Name = "ServerMonitor";
+            this.Name = "ServerMonitorIp";
             this.Text = "服务器状态监控";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -334,7 +323,6 @@ namespace ServerMonitor
         private System.Windows.Forms.Button button8;
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.Button button9;
-        private System.Windows.Forms.Button button_AppControl;
     }
 }
 

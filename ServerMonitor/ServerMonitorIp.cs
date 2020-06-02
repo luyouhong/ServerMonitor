@@ -14,7 +14,7 @@ using System.Configuration;
 using System.ServiceProcess;
 using System.Diagnostics;
 using ClassLibraryTool1;
-using ServrerMonitor;
+using ServerMonitor;
 
 
 namespace ServerMonitor
@@ -52,7 +52,12 @@ namespace ServerMonitor
         string Target_Phone1 = "";
         string Target_Phone2 = "";
         string Rest_Url = "";
+        bool checkIp = true;
+        bool checkUrl = true;
+        bool sendtomanager = false;
 
+        public bool CheckIp { get => checkIp; set => checkIp = value; }
+        public bool CheckUrl { get => checkUrl; set => checkUrl = value; }
         #endregion
 
         #region 事件
@@ -99,7 +104,7 @@ namespace ServerMonitor
                 Target_Url_return_total_ms = new long[Target_Url_Count];
                 Target_Url_Success_count = new long[Target_Url_Count];
                 Target_Url_color = new Color[Target_Url_Count];
-
+                if (!checkIp) Target_IP_count = 0;
                 for (i = 0; i < Target_IP_count; i++)
                 {
                     int i1 = i + 1;
@@ -116,6 +121,7 @@ namespace ServerMonitor
                     Target_Success_count[i] = 0;
                     Target_color[i] = Color.Black;
                 }
+                if (!checkUrl) Target_Url_Count = 0;
                 for (i = 0; i < Target_Url_Count; i++)
                 {
                     int i1 = i + 1;
@@ -239,123 +245,149 @@ namespace ServerMonitor
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            int textBoxdone_use = 0;
-            int i=0;
-            if (now_j==0) total_count = total_count + 1;
-            if (now_j < Target_IP_count)
+            try
             {
-                #region 检查IP的连通
-                Ping_All_host_Onetime();
-                string rest_json = "";
-                if (Target_fail_count_alarm[now_j] == 3)
+                int textBoxdone_use = 0;
+                int i = 0;
+                if (now_j == 0) total_count = total_count + 1;
+                if (now_j < Target_IP_count)
                 {
-                    rest_json = "{    \"row_action\":\"1\",	\"msg_type\":\"SM\",	\"reply\":\"0\",	\"receives\":\"";
-                    rest_json = rest_json + Target_Phone1 + "\"";
-                    rest_json = rest_json + ",	\"title\":\"22\",	\"tcontent\":\"";
-                    rest_json = rest_json + DateTime.Now.TimeOfDay.ToString()+ " " + Target_IP[now_j] + " " + Target_Host[now_j] + " 连续Ping 3次失败\"";
-                    rest_json = rest_json + ",	\"start_time\":\"";
-                    //rest_json = rest_json + DateTime.Now.ToString() + "\",	\"creator\":\"XXX\"}          ";
-                    rest_json = rest_json + "\",	\"creator\":\"top\"}          ";
-                    textBox2.Text = Rest_Url;
-                    textBox3.Text = rest_json;
-                    if (Target_Phone1.Length>9) textBox4.Text = PostWebRequest(Rest_Url, rest_json);
-                    rest_json = "{    \"row_action\":\"1\",	\"msg_type\":\"SM\",	\"reply\":\"0\",	\"receives\":\"";
-                    rest_json = rest_json + Target_Phone2 + "\"";
-                    rest_json = rest_json + ",	\"title\":\"22\",	\"tcontent\":\"";
-                    rest_json = rest_json + DateTime.Now.TimeOfDay.ToString() + " " + Target_IP[now_j] + " " + Target_Host[now_j] + " 连续Ping 3次失败\"";
-                    rest_json = rest_json + ",	\"start_time\":\"";
-                    //rest_json = rest_json + DateTime.Now.ToString() + "\",	\"creator\":\"XXX\"}          ";
-                    rest_json = rest_json + "\",	\"creator\":\"top\"}          ";
-                    textBox2.Text = Rest_Url;
-                    textBox3.Text = rest_json;
-                    if (Target_Phone2.Length > 9) textBox4.Text = PostWebRequest(Rest_Url, rest_json);
-                    str_Do_fail = str_Do_fail + textBox4.Text + "\r\n";
+                    #region 检查IP的连通
+                    if (checkIp) Ping_All_host_Onetime();
+                    string rest_json = "";
+                    if (Target_fail_count_alarm[now_j] == 3)
+                    {
+                        if (checkIp)
+                        {
+                            rest_json = "{    \"row_action\":\"1\",	\"msg_type\":\"SM\",	\"reply\":\"0\",	\"receives\":\"";
+                            rest_json = rest_json + Target_Phone1 + "\"";
+                            rest_json = rest_json + ",	\"title\":\"22\",	\"tcontent\":\"";
+                            rest_json = rest_json + DateTime.Now.TimeOfDay.ToString() + " " + Target_IP[now_j] + " " + Target_Host[now_j] + " 连续Ping 3次失败\"";
+                            rest_json = rest_json + ",	\"start_time\":\"";
+                            //rest_json = rest_json + DateTime.Now.ToString() + "\",	\"creator\":\"XXX\"}          ";
+                            rest_json = rest_json + "\",	\"creator\":\"top\"}          ";
+                            textBox2.Text = Rest_Url;
+                            textBox3.Text = rest_json;
+                            if (Target_Phone1.Length > 9) textBox4.Text = PostWebRequest(Rest_Url, rest_json);
+                            rest_json = "{    \"row_action\":\"1\",	\"msg_type\":\"SM\",	\"reply\":\"0\",	\"receives\":\"";
+                            rest_json = rest_json + Target_Phone2 + "\"";
+                            rest_json = rest_json + ",	\"title\":\"22\",	\"tcontent\":\"";
+                            rest_json = rest_json + DateTime.Now.TimeOfDay.ToString() + " " + Target_IP[now_j] + " " + Target_Host[now_j] + " 连续Ping 3次失败\"";
+                            rest_json = rest_json + ",	\"start_time\":\"";
+                            //rest_json = rest_json + DateTime.Now.ToString() + "\",	\"creator\":\"XXX\"}          ";
+                            rest_json = rest_json + "\",	\"creator\":\"top\"}          ";
+                            textBox2.Text = Rest_Url;
+                            textBox3.Text = rest_json;
+                            if (Target_Phone2.Length > 9) textBox4.Text = PostWebRequest(Rest_Url, rest_json);
+                            str_Do_fail = str_Do_fail + textBox4.Text + "\r\n";
+                        }
+                    }
+                    #endregion
                 }
-                #endregion
-            }
-            else
-            {
-                string rest_json = "";
-                IsResponse_All_host_Onetime();  //检查网址的响应
-                int url_i = now_j - Target_IP_count;
-                if (Target_Url_fail_count_alarm[url_i] == 3)
+                else
                 {
+                    string rest_json = "";
+                    if (checkUrl) IsResponse_All_host_Onetime();  //检查网址的响应
+                    int url_i = now_j - Target_IP_count;
+                    if (Target_Url_fail_count_alarm[url_i] == 3)
+                    {
+                        if (checkUrl)
+                        {
+                            rest_json = "{    \"row_action\":\"1\",	\"msg_type\":\"SM\",	\"reply\":\"0\",	\"receives\":\"";
+                            rest_json = rest_json + Target_Phone1 + "\"";
+                            rest_json = rest_json + ",	\"title\":\"22\",	\"tcontent\":\"";
+                            rest_json = rest_json + DateTime.Now.TimeOfDay.ToString() + " " + Target_Url[url_i] + Target_Url_desc[url_i] + " 连续访问 3次失败\"";
+                            rest_json = rest_json + ",	\"start_time\":\"";
+                            //rest_json = rest_json + DateTime.Now.ToString() + "\",	\"creator\":\"TOP\"}          ";
+                            rest_json = rest_json + "\",	\"creator\":\"TOP\"}          ";
+                            textBox2.Text = Rest_Url;
+                            textBox3.Text = rest_json;
+                            if (Target_Phone1.Length > 9) textBox4.Text = PostWebRequest(Rest_Url, rest_json);
+                            rest_json = "{    \"row_action\":\"1\",	\"msg_type\":\"SM\",	\"reply\":\"0\",	\"receives\":\"";
+                            rest_json = rest_json + Target_Phone2 + "\"";
+                            rest_json = rest_json + ",	\"title\":\"22\",	\"tcontent\":\"";
+                            rest_json = rest_json + DateTime.Now.TimeOfDay.ToString() + " " + Target_Url[url_i] + Target_Url_desc[url_i] + " 连续访问 3次失败\"";
+                            rest_json = rest_json + ",	\"start_time\":\"";
+                            //rest_json = rest_json + DateTime.Now.ToString() + "\",	\"creator\":\"TOP\"}          ";
+                            rest_json = rest_json + "\",	\"creator\":\"TOP\"}          ";
+                            textBox2.Text = Rest_Url;
+                            textBox3.Text = rest_json;
+                            if (Target_Phone2.Length > 9) textBox4.Text = PostWebRequest(Rest_Url, rest_json);
+                            str_Do_fail = str_Do_fail + textBox4.Text + "\r\n";
+                        }
+                    }
 
-                    rest_json = "{    \"row_action\":\"1\",	\"msg_type\":\"SM\",	\"reply\":\"0\",	\"receives\":\"";
-                    rest_json = rest_json + Target_Phone1 + "\"";
-                    rest_json = rest_json + ",	\"title\":\"22\",	\"tcontent\":\"";
-                    rest_json = rest_json + DateTime.Now.TimeOfDay.ToString() + " " + Target_Url[url_i] + Target_Url_desc[url_i] + " 连续访问 3次失败\"";
-                    rest_json = rest_json + ",	\"start_time\":\"";
-                    //rest_json = rest_json + DateTime.Now.ToString() + "\",	\"creator\":\"TOP\"}          ";
-                    rest_json = rest_json + "\",	\"creator\":\"TOP\"}          ";
-                    textBox2.Text = Rest_Url;
-                    textBox3.Text = rest_json;
-                    if (Target_Phone1.Length > 9) textBox4.Text = PostWebRequest(Rest_Url, rest_json);
-                    rest_json = "{    \"row_action\":\"1\",	\"msg_type\":\"SM\",	\"reply\":\"0\",	\"receives\":\"";
-                    rest_json = rest_json + Target_Phone2 + "\"";
-                    rest_json = rest_json + ",	\"title\":\"22\",	\"tcontent\":\"";
-                    rest_json = rest_json + DateTime.Now.TimeOfDay.ToString() + " " + Target_Url[url_i] + Target_Url_desc[url_i] + " 连续访问 3次失败\"";
-                    rest_json = rest_json + ",	\"start_time\":\"";
-                    //rest_json = rest_json + DateTime.Now.ToString() + "\",	\"creator\":\"TOP\"}          ";
-                    rest_json = rest_json + "\",	\"creator\":\"TOP\"}          ";
-                    textBox2.Text = Rest_Url;
-                    textBox3.Text = rest_json;
-                    if (Target_Phone2.Length > 9) textBox4.Text = PostWebRequest(Rest_Url, rest_json);
-                    str_Do_fail = str_Do_fail + textBox4.Text + "\r\n";
+                }
+                textBoxfail.Text = str_Do_fail;
+                if (textBoxdone_use == 1) textBoxdone.Text = "";
+                richTextBox1.Text = "";
+                int str_sel_strart_pos = 0;
+                int str_sel_end_pos = 0;
+                string tem_str = "";
+                /// textBoxdone_use = 0 时不用
+                for (i = 0; i < Target_IP_count; i++)//textBoxdone_use = 0 时不用
+                {
+                    if (checkIp)
+                    {
+                        if (textBoxdone_use == 1) textBoxdone.ForeColor = Target_color[i];
+                        if (textBoxdone_use == 1) textBoxdone.Text = textBoxdone.Text + " PingIP " + Target_Host[i] + " "
+                                + Target_IP[i] + "   " + Target_result[i];
+                        tem_str = "PingIP " + Target_Host[i] + " " + Target_IP[i] + "   " + Target_result[i];
+                        //richTextBox1.Text = richTextBox1.Text + tem_str;
+
+                    }
+                }
+                for (i = 0; i < Target_Url_Count; i++) //textBoxdone_use = 0 时不用
+                {
+                    if (checkUrl)
+                    {
+                        tem_str = "连接 " + Target_Url_desc[i] + "     " + Target_Url[i] + "    " + Target_Url_result[i];
+                        if (textBoxdone_use == 1) textBoxdone.ForeColor = Target_Url_color[i];
+                        if (textBoxdone_use == 1) textBoxdone.Text = textBoxdone.Text + " 连接 " + Target_Url_desc[i] + "     "
+                                + Target_Url[i] + "    " + Target_Url_result[i];
+                        //richTextBox1.Text = richTextBox1.Text + tem_str;
+                    }
+                }
+                ///
+                for (i = 0; i < Target_IP_count; i++)
+                {
+                    if (checkIp)
+                    {
+                        tem_str = "PingIP " + Target_Host[i] + " " + Target_IP[i] + "   " + Target_result[i];
+                        richTextBox1.AppendText(tem_str);
+                        str_sel_end_pos = str_sel_strart_pos + tem_str.Length - 1;
+                        richTextBox1.Select(str_sel_strart_pos, tem_str.Length - 1);
+                        richTextBox1.SelectionColor = Target_color[i];
+                        if (now_j == i) richTextBox1.SelectionColor = Color.Blue;
+                        str_sel_strart_pos = str_sel_end_pos;
+                    }
+                }
+                for (i = 0; i < Target_Url_Count; i++)
+                {
+                    if (checkUrl)
+                    {
+                        tem_str = "连接 " + Target_Url_desc[i] + "     " + Target_Url[i] + "    " + Target_Url_result[i];
+                        richTextBox1.AppendText(tem_str);
+                        str_sel_end_pos = str_sel_strart_pos + tem_str.Length - 1;
+                        richTextBox1.Select(str_sel_strart_pos, tem_str.Length - 1);
+                        richTextBox1.SelectionColor = Target_Url_color[i];
+                        int ii = now_j - Target_IP_count;
+                        if (i == ii) richTextBox1.SelectionColor = Color.Blue;
+                        str_sel_strart_pos = str_sel_end_pos;
+                    }
                 }
 
+                now_j = now_j + 1;
+                if (now_j >= now_k) now_j = 0;
             }
-            textBoxfail.Text = str_Do_fail;
-            if (textBoxdone_use==1) textBoxdone.Text = "";
-            richTextBox1.Text = "";
-            int str_sel_strart_pos = 0;
-            int str_sel_end_pos = 0;
-            string tem_str = "";
-            /// textBoxdone_use = 0 时不用
-            for (i = 0; i < Target_IP_count; i++)//textBoxdone_use = 0 时不用
+            catch (Exception ex)
             {
-                if (textBoxdone_use == 1) textBoxdone.ForeColor = Target_color[i];
-                if (textBoxdone_use == 1) textBoxdone.Text = textBoxdone.Text + " PingIP " + Target_Host[i] + " " 
-                        + Target_IP[i] + "   " + Target_result[i];
-                tem_str = "PingIP " + Target_Host[i] + " " + Target_IP[i] + "   " + Target_result[i];
-                //richTextBox1.Text = richTextBox1.Text + tem_str;
 
-
-            }
-            for (i = 0; i < Target_Url_Count; i++) //textBoxdone_use = 0 时不用
-            {
-                tem_str = "连接 " + Target_Url_desc[i] + "     " + Target_Url[i] + "    " + Target_Url_result[i];
-                if (textBoxdone_use == 1) textBoxdone.ForeColor = Target_Url_color[i];
-                if (textBoxdone_use == 1) textBoxdone.Text = textBoxdone.Text + " 连接 " + Target_Url_desc[i] + "     "
-                        + Target_Url[i] + "    " + Target_Url_result[i];
-                //richTextBox1.Text = richTextBox1.Text + tem_str;
-            }
-            ///
-            for (i = 0; i < Target_IP_count; i++)
-            {
-                tem_str = "PingIP " + Target_Host[i] + " " + Target_IP[i] + "   " + Target_result[i];
-                richTextBox1.AppendText(tem_str);
-                str_sel_end_pos = str_sel_strart_pos + tem_str.Length - 1;
-                richTextBox1.Select(str_sel_strart_pos, tem_str.Length - 1);
-                richTextBox1.SelectionColor = Target_color[i];
-                if (now_j == i) richTextBox1.SelectionColor = Color.Blue;
-              str_sel_strart_pos = str_sel_end_pos;
-
-            }
-            for (i = 0; i < Target_Url_Count; i++)
-            {
-                tem_str = "连接 " + Target_Url_desc[i] + "     " + Target_Url[i] + "    " + Target_Url_result[i];
-                richTextBox1.AppendText(tem_str);
-                str_sel_end_pos = str_sel_strart_pos + tem_str.Length - 1;
-                richTextBox1.Select(str_sel_strart_pos, tem_str.Length - 1);
-                richTextBox1.SelectionColor = Target_Url_color[i];
-                int ii = now_j - Target_IP_count;
-                if (i == ii) richTextBox1.SelectionColor = Color.Blue;
-                str_sel_strart_pos = str_sel_end_pos;
+                // MessageBox.Show(ex.Message);
+                string date_str = DateTime.Now.ToLongDateString() + "  " + DateTime.Now.ToLongTimeString();
+                writelog(date_str, " ServrerMonitor_timer1_Tick ", ex.Message);
             }
 
-            now_j = now_j + 1;
-            if (now_j >= now_k) now_j = 0;
         }
 
 
@@ -367,7 +399,7 @@ namespace ServerMonitor
         /// </summary>
         /// <param name="strIP"></param>
         /// <returns></returns>
-        public static bool PingIP(string strIP,ref long pingReplyRoundtripTime)
+        public  bool PingIP(string strIP,ref long pingReplyRoundtripTime)
         {
             try
             {
@@ -399,7 +431,7 @@ namespace ServerMonitor
         /// </summary>
         /// <param name="ip"></param>
         /// <returns></returns>
-        public static bool IsValidIP(string ip)
+        public  bool IsValidIP(string ip)
         {
             try
             {
@@ -724,35 +756,43 @@ namespace ServerMonitor
         #endregion
 
         #region 数据及日志记录
-        static string PostWebRequest(string postUrl, string jsonStr)
+        string PostWebRequest(string postUrl, string jsonStr)
         {
             string result = string.Empty;
             try
             {
-                byte[] byteArray = Encoding.UTF8.GetBytes(jsonStr);
-                HttpWebRequest webReq = (HttpWebRequest)WebRequest.Create(new Uri(postUrl));
-                webReq.Method = "POST";
-                webReq.ContentType = "application/json";
-                webReq.ContentLength = byteArray.Length;
-                Stream reqStream = webReq.GetRequestStream();
-                reqStream.Write(byteArray, 0, byteArray.Length);
-                reqStream.Close();
-                HttpWebResponse response = (HttpWebResponse)webReq.GetResponse();
-                StreamReader streamReader = new StreamReader(response.GetResponseStream(), Encoding.UTF8);
-                result = streamReader.ReadToEnd();
-                streamReader.Close();
-                response.Close();
-                reqStream.Close();
+                if (!sendtomanager)
+                {
+                    byte[] byteArray = Encoding.UTF8.GetBytes(jsonStr);
+                    HttpWebRequest webReq = (HttpWebRequest)WebRequest.Create(new Uri(postUrl));
+                    webReq.Method = "POST";
+                    webReq.ContentType = "application/json";
+                    webReq.ContentLength = byteArray.Length;
+                    Stream reqStream = webReq.GetRequestStream();
+                    reqStream.Write(byteArray, 0, byteArray.Length);
+                    reqStream.Close();
+                    HttpWebResponse response = (HttpWebResponse)webReq.GetResponse();
+                    StreamReader streamReader = new StreamReader(response.GetResponseStream(), Encoding.UTF8);
+                    result = streamReader.ReadToEnd();
+                    streamReader.Close();
+                    response.Close();
+                    reqStream.Close();
+                    DateTime temsate = DateTime.Now;
+                    ClassLog.WritedataTodo(temsate.ToString(), " ServerMonitorIp PostWebRequest ", postUrl + " " + jsonStr);
+                }
             }
             catch (Exception ex)
             {
+                DateTime temsate = DateTime.Now;
+                ClassLog.Writelog(temsate.ToString(), " ServerMonitorIp PostWebRequest " + postUrl + " " + jsonStr, ex.ToString());
+                Debug.Print(" PostWebRequest " + ex.ToString());
                 Console.Error.WriteLine(ex.Message);
             }
             return result;
         }
 
 
-        public static bool writelog(string datetimestr1, string appnamestrandfunctionnamestr, string errorstr)
+        public  bool writelog(string datetimestr1, string appnamestrandfunctionnamestr, string errorstr)
         {
             try
             {
@@ -846,7 +886,7 @@ namespace ServerMonitor
                 return false;
             }
         }
-        public static bool writedata(string datetimestr1, string appnamestrandfunctionnamestr, string eventstr)
+        public  bool writedata(string datetimestr1, string appnamestrandfunctionnamestr, string eventstr)
         {
             try
             {
@@ -941,7 +981,7 @@ namespace ServerMonitor
                 return false;
             }
         }
-        public static bool writedataTodo(string datetimestr1, string appnamestrandfunctionnamestr, string eventstr)
+        public  bool writedataTodo(string datetimestr1, string appnamestrandfunctionnamestr, string eventstr)
         {
             try
             {

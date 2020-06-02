@@ -13,7 +13,7 @@ namespace ClassLibraryTool1
 {
     public class ClassMonitor
     {
-        #region 检查IP 服务 网页 端口的通讯
+        #region 检查主机 应用程序 服务 网页 端口的通讯
         /// <summary>
         /// 检测IP
         /// </summary>
@@ -88,23 +88,115 @@ namespace ClassLibraryTool1
         }
 
         /// <summary>
-        ///  public bool IsStop(string 服务名) 检测服务运行
+        ///  public bool ServiceIsStop(string 服务名) 检测服务运行
         /// </summary>
-        /// <param name>服务名</param>
-        /// <returns></returns>
-
-        public static bool IsStop(string serviceNamestr)//检测服务运行
+        public static bool ServiceIsStop(string serviceNamestr)//检测服务运行
         {
             bool isStop = false;
-            using (System.ServiceProcess.ServiceController control = new ServiceController(serviceNamestr))
+            try
             {
-                ClassLog.WriteLog1(control.Status.ToString());
-                if (control.Status == System.ServiceProcess.ServiceControllerStatus.Stopped)
+
+                using (System.ServiceProcess.ServiceController control = new ServiceController(serviceNamestr))
                 {
-                    isStop = true;
+                    ClassLog.WriteLog1(control.Status.ToString());
+                    if (control.Status == System.ServiceProcess.ServiceControllerStatus.Stopped)
+                    {
+                        isStop = true;
+                    }
                 }
+                return isStop;
             }
-            return isStop;
+            catch (Exception ex)
+            {
+                string date_str = DateTime.Now.ToString();
+                ClassLog.Writelog(date_str, " ClassMonitor ServiceIsStop(" + serviceNamestr + ") ", ex.Message);
+                return isStop;
+            }
+        }
+
+        /// <summary>
+        ///  public bool ServiceStop(string 服务名) 停止服务运行
+        /// </summary>
+        public static bool ServiceStop(string serviceNamestr)//停止服务运行
+        {
+            bool isStop = false;
+            try
+            {
+                string date_str = DateTime.Now.ToString();
+                using (System.ServiceProcess.ServiceController control = new ServiceController(serviceNamestr))
+                {
+                    if (control.Status == System.ServiceProcess.ServiceControllerStatus.Running)
+                    {
+                        control.Stop();
+                        isStop = true;
+                        ClassLog.WritedataTodo(date_str, " ClassMonitor ServiceStop(" + serviceNamestr + ") ", " Stop! ");
+                    }
+                }
+                return isStop;
+            }
+            catch (Exception ex)
+            {
+                string date_str = DateTime.Now.ToString();
+                ClassLog.Writelog(date_str, " ClassMonitor ServiceStop(" + serviceNamestr + ") ", ex.Message);
+                return isStop;
+            }
+        }
+
+        /// <summary>
+        ///  public bool ServiceStart(string 服务名) 开启服务运行
+        /// </summary>
+        public static bool ServiceStart(string serviceNamestr)//开启服务运行
+        {
+            bool isStart = false;
+            try
+            {
+                string date_str = DateTime.Now.ToString();
+                using (System.ServiceProcess.ServiceController control = new ServiceController(serviceNamestr))
+                {
+                    if (control.Status == System.ServiceProcess.ServiceControllerStatus.Stopped)
+                    {
+                        control.Start();
+                        ClassLog.WritedataTodo(date_str, " ClassMonitor ServiceStart(" + serviceNamestr + ") ", " Start! ");
+                        isStart = true;
+                    }
+                }
+                return isStart;
+            }
+            catch (Exception ex)
+            {
+                string date_str = DateTime.Now.ToString();
+                ClassLog.Writelog(date_str, " ClassMonitor ServiceStop(" + serviceNamestr + ") ", ex.Message);
+                return isStart;
+            }
+        }
+
+
+        /// <summary>
+        ///  public string GetServiceStatus(string 服务名) 获取服务状态
+        /// </summary>
+        public static string GetServiceStatus(string serviceNamestr)//获取服务状态
+        {
+            string temstr = "";
+            try
+            {
+                using (System.ServiceProcess.ServiceController control = new ServiceController(serviceNamestr))
+                {
+                    string date_str = DateTime.Now.ToString();
+                    temstr = control.MachineName + " " +control.DisplayName + "  " 
+                        + control.ServiceName + " " + control.Status.ToString();
+                    ClassLog.Writedata(date_str, " ClassMonitor GetServiceStatus(" + serviceNamestr + ") ", serviceNamestr);
+                }
+                return temstr;
+            }
+            catch (Exception ex)
+            {
+                string date_str = DateTime.Now.ToString();
+                ClassLog.Writelog(date_str, " ClassMonitor GetServiceStatus(" + serviceNamestr +   ") ", ex.Message);
+                return temstr;
+
+            }
+
+
         }
 
         /// <summary>
@@ -152,11 +244,9 @@ namespace ClassLibraryTool1
         }
 
         /// <summary>
-        ///  bool AppIsrunning(string 应用程序名) 检测应用程序运行
+        ///  bool StartApp(string appName,string appPath) 启动应用程序运行
         /// </summary>
-        /// <param name>应用程序名</param>
-        /// <returns></returns>
-        public static bool StartApp(string appName,string appPath)
+        public static bool StartApp(string appName,string appPath)//启动应用程序运行
         {
             bool myreturnbool = false;
             try
@@ -177,7 +267,7 @@ namespace ClassLibraryTool1
                     //p = Process.Start(appPath);
                     Process mProcess = new Process();
                     mProcess.StartInfo.FileName = appName;
-                    mProcess.StartInfo.WorkingDirectory = appPath.Substring(0, appName.LastIndexOf("\\"));
+                    mProcess.StartInfo.WorkingDirectory = appPath.Substring(0, appPath.LastIndexOf("\\"));
                     mProcess.Start();
 
                     myreturnbool = false;
@@ -297,7 +387,7 @@ namespace ClassLibraryTool1
         {
             try
             {
-                if (IsStop("serviceName"))
+                if (ServiceIsStop("serviceName"))
                 {
                     using (System.ServiceProcess.ServiceController control = new ServiceController("serviceName"))
                     {
