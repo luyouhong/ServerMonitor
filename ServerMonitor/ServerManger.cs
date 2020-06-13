@@ -128,5 +128,22 @@ namespace ServerMonitor
             }
 
         }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            python1 python1a = new python1();
+            python1a.Show();
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            FormPython2 formPython2a = new FormPython2();
+            formPython2a.Show();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

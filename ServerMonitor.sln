@@ -7,6 +7,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerMonitor", "ServerMoni
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassLibraryTool1", "ClassLibraryLog\ClassLibraryTool1.csproj", "{7953F717-B8B3-4FA9-9C4B-A74F56C65FE4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{CDF4DDCC-03E7-48E8-A310-028A1AC46367}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedisCacheHelper", "RedisCacheHelper\RedisCacheHelper.csproj", "{C066C385-E5E0-4F9C-9A89-FF9ADF2ACA76}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A2512ED9-60CD-4988-9B1D-0AE479009CFE}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +30,14 @@ Global
 		{7953F717-B8B3-4FA9-9C4B-A74F56C65FE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7953F717-B8B3-4FA9-9C4B-A74F56C65FE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7953F717-B8B3-4FA9-9C4B-A74F56C65FE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDF4DDCC-03E7-48E8-A310-028A1AC46367}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDF4DDCC-03E7-48E8-A310-028A1AC46367}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDF4DDCC-03E7-48E8-A310-028A1AC46367}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDF4DDCC-03E7-48E8-A310-028A1AC46367}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C066C385-E5E0-4F9C-9A89-FF9ADF2ACA76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C066C385-E5E0-4F9C-9A89-FF9ADF2ACA76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C066C385-E5E0-4F9C-9A89-FF9ADF2ACA76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C066C385-E5E0-4F9C-9A89-FF9ADF2ACA76}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

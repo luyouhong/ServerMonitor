@@ -20,7 +20,7 @@ namespace ServerMonitor
         }
         public void GetdatafromModle()
         {
-            bool mybool = false;
+            //bool mybool = false;
             //mybool = myClassServicescontrol.Services1check();
             text_Services1name.Text = myClassServicescontrol.Services1Name;
             text_App1path.Text = myClassServicescontrol.ServicesStatus;

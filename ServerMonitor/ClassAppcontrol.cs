@@ -61,7 +61,7 @@ namespace ServerMonitor
         /// </summary>
         public int App1DayRestartHour { get => app1DayRestartHour; set => app1DayRestartHour = value; }
         /// <summary>
-        ///  应用程序每天自动重启分钟小于57
+        ///  应用程序每天自动重启分钟
         /// </summary>
         public int App1DayRestartMinute { get => app1DayRestartMinute; set => app1DayRestartMinute = value; }
         /// <summary>
