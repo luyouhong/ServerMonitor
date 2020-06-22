@@ -145,5 +145,11 @@ namespace ServerMonitor
         {
 
         }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            FormSpeech formSpeech = new FormSpeech();
+            formSpeech.Show();
+        }
     }
 }

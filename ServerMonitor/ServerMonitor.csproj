@@ -130,6 +130,12 @@
     <Compile Include="FormServiceControl.Designer.cs">
       <DependentUpon>FormServiceControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormSpeech.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSpeech.Designer.cs">
+      <DependentUpon>FormSpeech.cs</DependentUpon>
+    </Compile>
     <Compile Include="python1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -158,6 +164,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormServiceControl.resx">
       <DependentUpon>FormServiceControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSpeech.resx">
+      <DependentUpon>FormSpeech.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="python1.resx">
       <DependentUpon>python1.cs</DependentUpon>
@@ -217,7 +226,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Content Include="city.txt">
+    <Content Include="TestFiles\city.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="pythonfiles\digital1.py">
@@ -229,7 +238,7 @@
     <Content Include="pythonfiles\multi.py">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="txtutf80.txt">
+    <Content Include="TestFiles\txtutf80.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
